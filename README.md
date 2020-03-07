@@ -1,6 +1,6 @@
 # electron-vue-hitbox
 
-(!img)[https://github.com/alectrocute/electron-vue-hitbox/blob/master/README.png?raw=true]
+![readme](https://github.com/alectrocute/electron-vue-hitbox/blob/master/README.png?raw=true)
 
 ## Project setup
 ```
