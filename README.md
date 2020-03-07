@@ -1,4 +1,4 @@
-# electron-bar
+# electron-vue-hitbox
 
 ## Project setup
 ```
