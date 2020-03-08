@@ -1,5 +1,7 @@
 # electron-vue-hitbox
 
+![readme](https://github.com/alectrocute/electron-vue-hitbox/blob/master/README.png?raw=true)
+
 ## Project setup
 ```
 npm install
