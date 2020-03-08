@@ -5,13 +5,13 @@
         <div class="left">
           <div class="sections">
             <label class="draggable">
-              <icon />
+              <BrandIcon />
             </label>
             <label
               v-for="(section, s) in sections"
               :key="s"
               :class="
-                s === $store.state.ui.pageIndex
+                $store.state.ui.pageIndex == s
                   ? 'label-active'
                   : 'label-inactive'
               "
@@ -46,15 +46,23 @@
             </label>
           </div>
         </div>
-        <div class="right">
-          <div class="toggle-area">
-            <p>Snooze</p>
-            <label class="switch-theme">
-              <input v-model="darkModeToggle" type="checkbox" />
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
+
+        <WindowActionIcon @click="quitApp" color="red">
+          <svg
+            width="60%"
+            height="100%"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.29289 4.29289C4.68342 3.90237 5.31658 3.90237 5.70711 4.29289L10 8.58579L14.2929 4.29289C14.6834 3.90237 15.3166 3.90237 15.7071 4.29289C16.0976 4.68342 16.0976 5.31658 15.7071 5.70711L11.4142 10L15.7071 14.2929C16.0976 14.6834 16.0976 15.3166 15.7071 15.7071C15.3166 16.0976 14.6834 16.0976 14.2929 15.7071L10 11.4142L5.70711 15.7071C5.31658 16.0976 4.68342 16.0976 4.29289 15.7071C3.90237 15.3166 3.90237 14.6834 4.29289 14.2929L8.58579 10L4.29289 5.70711C3.90237 5.31658 3.90237 4.68342 4.29289 4.29289Z"
+              fill="#fff"
+            />
+          </svg>
+        </WindowActionIcon>
       </div>
     </div>
     <div class="tool-bar ptr">
@@ -221,25 +229,15 @@
             />
           </svg>
         </button>
-        <div class="zoom-input">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="7" cy="7" r="4" stroke="#8D8EA1" stroke-width="2" />
-            <line
-              x1="12.2929"
-              y1="12.7071"
-              x2="10.2929"
-              y2="10.7071"
-              stroke="#8D8EA1"
-              stroke-width="2"
-            />
-          </svg>
-          <input type="text" placeholder="100%" />
+
+        <div class="right" style="margin-left: 15px; margin-right: 15px">
+          <div class="toggle-area">
+            <p>Snooze</p>
+            <label class="switch-theme">
+              <input v-model="darkModeToggle" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -247,18 +245,21 @@
 </template>
 
 <script>
-import icon from "@/components/AppMotionIcon";
+import BrandIcon from "@/components/Window/BrandIcon";
+import WindowActionIcon from "@/components/Window/WindowActionIcon";
 import "./WindowBar.css";
+
+// example of node integration!
+const ipc = require("electron").ipcRenderer;
 
 export default {
   name: "WindowBar",
   components: {
-    icon
+    BrandIcon,
+    WindowActionIcon
   },
   data() {
     return {
-      nav: false,
-      tab: 0,
       sections: ["Activity", "Whiteboard"]
     };
   },
@@ -278,6 +279,9 @@ export default {
   methods: {
     updatePageIndex(t) {
       this.$store.dispatch("updatePageIndex", t);
+    },
+    quitApp() {
+      ipc.send("app-quit");
     }
   }
 };

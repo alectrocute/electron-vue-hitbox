@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow, screen } from "electron";
+import { app, protocol, BrowserWindow, screen, ipcMain } from "electron";
 import {
   createProtocol
   /* installVueDevtools */
@@ -94,3 +94,7 @@ if (isDevelopment) {
     });
   }
 }
+
+ipcMain.on("app-quit", (event, arg) => {
+  app.quit();
+});
